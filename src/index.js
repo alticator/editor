@@ -49,6 +49,11 @@ menu.append(new MenuItem({
     label: "Save",
     accelerator: process.platform === "darwin" ? "Cmd+S" : "Ctrl+S",
     click: () => win.webContents.send("ping", "save")
+  },
+  {
+    label: "Open",
+    accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
+    click: () => win.webContents.send("ping", "open")
   }]
 }))
 

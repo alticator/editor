@@ -6,11 +6,10 @@
 html, body {margin: 0; overflow: hidden;}
 nav {background-color: #505050; color: white; font-size: 18px; padding: 5px; text-align: center;}
 nav #controls {float: left;}
-nav #controls button {border: none; background-color: #505050; color: white; cursor: pointer; transition: 0.3s;}
+nav #controls button {border: none; background-color: #505050; color: white; transition: 0.3s;}
 nav #controls button:hover {background-color: #808080;}
 #edit {resize: none; width: 100vw; height: calc(100vh - 18px - 10px); border: none;}
 #edit:focus {outline: none;}
-button {cursor: pointer;}
 
 .modal-container {z-index: 1; position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(50, 50, 50, 0.8); overflow: auto;}
 .modal {background-color: white; margin: 15% auto; width: 500px; border-radius: 15px; overflow: hidden;}

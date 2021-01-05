@@ -66,8 +66,8 @@ require("electron").ipcRenderer.on("ping", (event, message: string) => {
             saveModal.open();
             break;
 
-        case "edit":
-            setUnsaved();
+        case "open":
+            openModal.open();
             break;
     }
 });
