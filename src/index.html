@@ -23,14 +23,31 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal-container" id="open-modal" style="display: none;">
+			<div class="modal">
+				<div class="modal-header">
+					Open File
+				</div>
+				<div class="modal-body">
+					File Path <input id="open-name" placeholder="Filename">
+				</div>
+				<div class="modal-footer">
+					<button onclick="openFile()">Open</button>
+					<button onclick="openModal.close()">Cancel</button>
+				</div>
+			</div>
+		</div>
 		<nav>
 			<div id="controls">
 				<button onclick="saveModal.open()">
 					Save
 				</button>
+				<button onclick="openModal.open()">
+					Open
+				</button>
 			</div>
 			<div id="file-data">
-				Unsaved File*
+				Unsaved Note*
 			</div>
 		</nav>
 		<textarea id="edit" onkeypress="setUnsaved()" autofocus></textarea>
