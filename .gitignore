@@ -25,4 +25,4 @@ jspm_packages/
 .DS_Store
 
 // Builds
-index.js
+app.js
