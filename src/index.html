@@ -12,13 +12,10 @@
 		<div class="modal-container" id="save-modal" style="display: none;">
 			<div class="modal">
 				<div class="modal-header">
-					Save File
+					Save As
 				</div>
 				<div class="modal-body">
-					<h3>
-						Filename
-					</h3>
-					<input id="save-name" placeholder="Filename">
+					Save as <input id="save-name" placeholder="Filename">
 				</div>
 				<div class="modal-footer">
 					<button onclick="saveFile()">Save</button>
@@ -36,7 +33,7 @@
 				Unsaved File*
 			</div>
 		</nav>
-		<textarea id="edit" autofocus></textarea>
+		<textarea id="edit" onkeypress="setUnsaved()" autofocus></textarea>
 		<script src="app.js"></script>
 	</body>
 </html>
