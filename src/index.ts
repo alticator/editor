@@ -48,12 +48,14 @@ menu.append(new MenuItem({
   submenu: [{
     label: "Save",
     accelerator: process.platform === "darwin" ? "Cmd+S" : "Ctrl+S",
-    click: () => win.webContents.send("ping", "save")
+    click: () => {
+      win.webContents.send("request", "save");
+    }
   },
   {
     label: "Open",
     accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
-    click: () => win.webContents.send("ping", "open")
+    click: () => openFile()
   }]
 }))
 

@@ -49,3 +49,10 @@ ipcRenderer.on("fileInfo", (event, data: SaveData) => {
     savePreferences.saveName = data.saveName;
     fileData.innerHTML = data.saveInfo;
 })
+
+ipcRenderer.on("request", (event, data: string) => {
+    switch (data) {
+        case "save":
+            commandSaveFile();
+    }
+})
