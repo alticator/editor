@@ -19,7 +19,7 @@ function createWindow () {
 
 app.whenReady().then(createWindow)
 
-// Close window on request
+// Quit app when all windows closed except on process.platform darwin
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
@@ -58,14 +58,12 @@ menu.append(new MenuItem({
 }))
 
 menu.append(new MenuItem({
-  label: "Edit",
-  submenu: [{
-    role: "undo",
-  },
-  {
-    role: "redo"
-  }]
-}))
+  role: "editMenu"
+}));
+
+menu.append(new MenuItem({
+  role: "windowMenu"
+}));
 
 Menu.setApplicationMenu(menu);
 
