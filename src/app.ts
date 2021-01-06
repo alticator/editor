@@ -1,41 +1,27 @@
-var fs = require('fs');
+//var fs = require('fs');
 var editor = document.getElementById("edit");
 var fileData = document.getElementById("file-data");
+const {ipcRenderer} = require("electron");
+
 var savePreferences: SaveData = {
     saveName: "Unsaved Note",
     content: "",
-    path: ""
+    saveInfo: "Unsaved Note*"
 }
 
 interface SaveData {
     saveName: string,
     content: string,
-    path: string
+    saveInfo: string;
 }
 
-function saveFile() {
-    savePreferences = {
-        saveName: (<HTMLInputElement>document.getElementById("save-name")).value,
-        // Express that "editor" is the type of "HTMLInputElement" to allow the use of the "value" property
-        content: (<HTMLInputElement>editor).value,
-        path: ""
-    };
-    fs.writeFile(savePreferences.saveName, savePreferences.content, function (err, data) {
-        if (err) throw err;
-        fileData.innerHTML = `${savePreferences.saveName} - Saved`;
-    });
-    saveModal.close();
+function commandSaveFile() {
+    var content = (<HTMLInputElement>editor).value;
+    ipcRenderer.send("command", "save", content);
 }
 
-function openFile() {
-    var fileName: string = (<HTMLInputElement>document.getElementById("open-name")).value;
-    fs.readFile(fileName, function(err, data): void {
-        if (err) throw err;
-        (<HTMLInputElement>editor).innerHTML = data;
-        fileData.innerHTML = `${fileName} - Saved`;
-    });
-    savePreferences.saveName = fileName;
-    openModal.close();
+function commandOpenFile() {
+    ipcRenderer.send("command", "open");
 }
 
 function setUnsaved(): void {
@@ -51,23 +37,15 @@ var saveModal = {
     }
 }
 
-var openModal = {
-    open: function(): void {
-        document.getElementById("open-modal").style.display = "inline";
-    },
-    close: function(): void {
-        document.getElementById("open-modal").style.display = "none";
-    }
-}
-
-require("electron").ipcRenderer.on("ping", (event, message: string) => {
-    switch (message) {
-        case "save":
-            saveModal.open();
-            break;
-
-        case "open":
-            openModal.open();
-            break;
-    }
+ipcRenderer.on("fileData", (event, data: string, newFileData: string, filename: string) => {
+    console.log("Data Received")
+    editor.innerHTML = data;
+    fileData.innerHTML = newFileData;
+    savePreferences.saveName = filename;
 });
+
+ipcRenderer.on("fileInfo", (event, data: SaveData) => {
+    savePreferences.saveInfo = data.saveInfo;
+    savePreferences.saveName = data.saveName;
+    fileData.innerHTML = data.saveInfo;
+})

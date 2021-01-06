@@ -9,40 +9,12 @@
 		<link rel="stylesheet" href="ui.css">
 	</head>
 	<body>
-		<div class="modal-container" id="save-modal" style="display: none;">
-			<div class="modal">
-				<div class="modal-header">
-					Save As
-				</div>
-				<div class="modal-body">
-					Save as <input id="save-name" placeholder="Filename">
-				</div>
-				<div class="modal-footer">
-					<button onclick="saveFile()">Save</button>
-					<button onclick="saveModal.close()">Cancel</button>
-				</div>
-			</div>
-		</div>
-		<div class="modal-container" id="open-modal" style="display: none;">
-			<div class="modal">
-				<div class="modal-header">
-					Open File
-				</div>
-				<div class="modal-body">
-					File Path <input id="open-name" placeholder="Filename">
-				</div>
-				<div class="modal-footer">
-					<button onclick="openFile()">Open</button>
-					<button onclick="openModal.close()">Cancel</button>
-				</div>
-			</div>
-		</div>
 		<nav>
 			<div id="controls">
-				<button onclick="saveModal.open()">
+				<button onclick="commandSaveFile()">
 					Save
 				</button>
-				<button onclick="openModal.open()">
+				<button onclick="commandOpenFile()">
 					Open
 				</button>
 			</div>
