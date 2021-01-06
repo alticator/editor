@@ -8,6 +8,7 @@ var savePreferences: SaveData = {
     content: "",
     saveInfo: "Unsaved Note*"
 }
+var saveAs = true;
 
 interface SaveData {
     saveName: string,
@@ -17,7 +18,12 @@ interface SaveData {
 
 function commandSaveFile() {
     var content = (<HTMLInputElement>editor).value;
-    ipcRenderer.send("command", "save", content);
+    ipcRenderer.send("command", "save", content, saveAs, savePreferences.saveName);
+}
+
+function commandSaveFileAs() {
+    var content = (<HTMLInputElement>editor).value;
+    ipcRenderer.send("command", "save", content, false, savePreferences.saveName);
 }
 
 function commandOpenFile() {
@@ -48,11 +54,14 @@ ipcRenderer.on("fileInfo", (event, data: SaveData) => {
     savePreferences.saveInfo = data.saveInfo;
     savePreferences.saveName = data.saveName;
     fileData.innerHTML = data.saveInfo;
+    saveAs = false;
 })
 
 ipcRenderer.on("request", (event, data: string) => {
     switch (data) {
         case "save":
             commandSaveFile();
+        case "saveAs":
+            commandSaveFileAs();
     }
 })

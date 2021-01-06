@@ -53,6 +53,13 @@ menu.append(new MenuItem({
     }
   },
   {
+    label: "Save As",
+    accelerator: process.platform === "darwin" ? "Cmd+Shift+S" : "Ctrl+Shift+S",
+    click: () => {
+      win.webContents.send("request", "save");
+    }
+  },
+  {
     label: "Open",
     accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
     click: () => openFile()
@@ -74,13 +81,13 @@ const {ipcMain} = require("electron");
 const fs = require("fs");
 const {dialog} = require("electron");
 
-ipcMain.on("command", function(event, message: string, content?: string): void {
+ipcMain.on("command", function(event, message: string, content?: string, saveAs?, saveName?): void {
   switch (message) {
     case "open":
       openFile();
       break;
     case "save":
-      saveFile(content);
+      saveFile(content, saveAs, saveName);
       break;
   }
 });
@@ -101,23 +108,37 @@ function openFile(): void {
   }
 }
 
-function saveFile(editorContent): void {
-  dialog.showSaveDialog(win, {
-    properties: ["showHiddenFiles"]
-  }).then(result => {
-    save(result.filePath, editorContent);
-  }).catch(err => {
-    console.log(err);
-  })
-  function save(fileName: string, data: string) {
-    fs.writeFile(fileName, data, err => {
-      if (err) throw err;
-    });
-    var sendData = {
-      saveName: fileName,
-      content: "",
-      saveInfo: `${fileName} - Saved`
+function saveFile(editorContent: string, saveAs: boolean, saveName: string): void {
+  if (saveAs) {
+    dialog.showSaveDialog(win, {
+      properties: ["showHiddenFiles"]
+    }).then(result => {
+      save(result.filePath, editorContent);
+    }).catch(err => {
+      console.log(err);
+    })
+    function save(fileName: string, data: string) {
+      fs.writeFile(fileName, data, err => {
+        if (err) throw err;
+      });
+      var sendData = {
+        saveName: fileName,
+        content: "",
+        saveInfo: `${fileName} - Saved`
+      }
+      win.webContents.send("fileInfo", sendData);
     }
-    win.webContents.send("fileInfo", sendData);
+  }
+  else {
+    fs.writeFile(saveName, editorContent, (err: any) => {
+        if (err)
+          throw err;
+      });
+      var sendData = {
+        saveName: saveName,
+        content: "",
+        saveInfo: `${saveName} - Saved`
+      }
+      win.webContents.send("fileInfo", sendData);
   }
 }
