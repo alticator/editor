@@ -56,7 +56,7 @@ menu.append(new MenuItem({
     label: "Save As",
     accelerator: process.platform === "darwin" ? "Cmd+Shift+S" : "Ctrl+Shift+S",
     click: () => {
-      win.webContents.send("request", "save");
+      win.webContents.send("request", "saveAs");
     }
   },
   {
@@ -108,8 +108,9 @@ function openFile(): void {
   }
 }
 
-function saveFile(editorContent: string, saveAs: boolean, saveName: string): void {
-  if (saveAs) {
+function saveFile(editorContent: string, doSaveAs: boolean, saveName: string): void {
+  console.log(doSaveAs, " CXII");
+  if (doSaveAs) {
     dialog.showSaveDialog(win, {
       properties: ["showHiddenFiles"]
     }).then(result => {
@@ -130,6 +131,7 @@ function saveFile(editorContent: string, saveAs: boolean, saveName: string): voi
     }
   }
   else {
+    console.log(doSaveAs, " CXXXIV");
     fs.writeFile(saveName, editorContent, (err: any) => {
         if (err)
           throw err;

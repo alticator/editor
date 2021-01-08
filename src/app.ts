@@ -23,7 +23,7 @@ function commandSaveFile() {
 
 function commandSaveFileAs() {
     var content = (<HTMLInputElement>editor).value;
-    ipcRenderer.send("command", "save", content, false, savePreferences.saveName);
+    ipcRenderer.send("command", "save", content, true, savePreferences.saveName);
 }
 
 function commandOpenFile() {
@@ -61,7 +61,9 @@ ipcRenderer.on("request", (event, data: string) => {
     switch (data) {
         case "save":
             commandSaveFile();
+            break;
         case "saveAs":
             commandSaveFileAs();
+            break;
     }
 })
