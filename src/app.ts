@@ -1,4 +1,3 @@
-//var fs = require('fs');
 var editor = document.getElementById("edit");
 var fileData = document.getElementById("file-data");
 const {ipcRenderer} = require("electron");
@@ -53,8 +52,10 @@ var formatModal = {
 function setFormat(): void {
     var font = (<HTMLSelectElement>document.getElementById("font")).value;
     var fontSize = (<HTMLSelectElement>document.getElementById("font-size")).value;
+    var lineHeight = (<HTMLSelectElement>document.getElementById("line-height")).value;
     editor.style.fontFamily = font;
     editor.style.fontSize = fontSize + "px";
+    editor.style.lineHeight = lineHeight;
     formatModal.close();
 }
 

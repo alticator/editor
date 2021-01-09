@@ -107,12 +107,14 @@ function openFile(): void {
   dialog.showOpenDialog(win, {
     properties: ["openFile"]
   }).then(result => {
-    open(result.filePaths[0]);
+    if (result.filePaths[0] != undefined) {
+      open(result.filePaths[0]);
+    }
   }).catch(err => {
     console.log(err);
   })
   function open(fileName: string) {
-    fs.readFile(fileName, "utf-8", function(err, data): void {
+    fs.readFile(fileName, "utf-8", function(err: any, data: any): void {
       if (err) throw err;
       win.webContents.send("fileData", data, `${fileName} - Saved`, fileName);
     });
@@ -120,17 +122,18 @@ function openFile(): void {
 }
 
 function saveFile(editorContent: string, doSaveAs: boolean, saveName: string): void {
-  console.log(doSaveAs, " CXII");
   if (doSaveAs) {
     dialog.showSaveDialog(win, {
       properties: ["showHiddenFiles"]
     }).then(result => {
-      save(result.filePath, editorContent);
+      if (result.filePath) {
+        save(result.filePath, editorContent);
+      }
     }).catch(err => {
       console.log(err);
     })
     function save(fileName: string, data: string) {
-      fs.writeFile(fileName, data, err => {
+      fs.writeFile(fileName, data, (err: any) => {
         if (err) throw err;
       });
       var sendData = {
@@ -142,7 +145,6 @@ function saveFile(editorContent: string, doSaveAs: boolean, saveName: string): v
     }
   }
   else {
-    console.log(doSaveAs, " CXXXIV");
     fs.writeFile(saveName, editorContent, (err: any) => {
         if (err)
           throw err;
