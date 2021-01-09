@@ -24,7 +24,7 @@
 						<option value="fantasy">Fantasy</option>
 					</select>
 					<br>
-					Font Size: 
+					<label for="font-size">Font Size: </label>
 					<input type="number" id="font-size" value="14">
 					<br>
 					Line Height: 
@@ -34,6 +34,12 @@
 						<option value="1">Single</option>
 						<option value="2">Double</option>
 					</select>
+					<br>
+					Theme: <br>
+					<input type="radio" name="theme" id="light-theme" checked>
+					<label for="light-theme">Light</label>
+					<input type="radio" name="theme" id="dark-theme">
+					<label for="dark-theme">Dark</label>
 				</div>
 				<div class="modal-footer">
 					<button onclick="setFormat()">
@@ -52,6 +58,9 @@
 				</button>
 				<button onclick="commandOpenFile()">
 					Open
+				</button>
+				<button onclick="formatModal.open()">
+					Format
 				</button>
 			</div>
 			<div id="file-data">

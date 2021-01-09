@@ -53,9 +53,20 @@ function setFormat(): void {
     var font = (<HTMLSelectElement>document.getElementById("font")).value;
     var fontSize = (<HTMLSelectElement>document.getElementById("font-size")).value;
     var lineHeight = (<HTMLSelectElement>document.getElementById("line-height")).value;
+    var darkMode = (<HTMLInputElement>document.getElementById("dark-theme")).checked;
     editor.style.fontFamily = font;
     editor.style.fontSize = fontSize + "px";
     editor.style.lineHeight = lineHeight;
+    if (darkMode) {
+        editor.style.backgroundColor = "#505050";
+        editor.style.color = "white";
+        document.getElementsByTagName("nav")[0].style.backgroundColor = "#808080";
+    }
+    else if (!darkMode) {
+        editor.style.backgroundColor = "white";
+        editor.style.color = "black";
+        document.getElementsByTagName("nav")[0].style.backgroundColor = "#505050";
+    }
     formatModal.close();
 }
 
