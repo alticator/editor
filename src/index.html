@@ -9,6 +9,34 @@
 		<link rel="stylesheet" href="ui.css">
 	</head>
 	<body>
+		<div class="modal-container" id="modal-format" style="display: none;">
+			<div class="modal">
+				<div class="modal-header">
+					Format Options
+				</div>
+				<div class="modal-body">
+					<label for="font">Font: </label>
+					<select id="font">
+						<option value="sans-serif">Sans-Serif (Default)</option>
+						<option value="erif">Serif</option>
+						<option value="monospace">Monospace</option>
+						<option value="cursive">Cursive (Handwriting)</option>
+						<option value="fantasy">Fantasy</option>
+					</select>
+					<br>
+					Font Size: 
+					<input type="number" id="font-size" value="14">
+				</div>
+				<div class="modal-footer">
+					<button onclick="setFormat()">
+						OK
+					</button>
+					<button onclick="formatModal.close()">
+						Cancel
+					</button>
+				</div>
+			</div>
+		</div>
 		<nav>
 			<div id="controls">
 				<button onclick="commandSaveFile()">

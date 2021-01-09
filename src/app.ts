@@ -34,13 +34,28 @@ function setUnsaved(): void {
     fileData.innerHTML = `${savePreferences.saveName}*`;
 }
 
-var saveModal = {
+interface ModalOptions {
+    open: void,
+    close: void
+}
+
+var formatModal = {
     open: function(): void {
-        document.getElementById("save-modal").style.display = "inline";
+        var modal = document.getElementById("modal-format");
+        modal.style.display = "initial";
     },
     close: function(): void {
-        document.getElementById("save-modal").style.display = "none";
+        var modal = document.getElementById("modal-format");
+        modal.style.display = "none";
     }
+}
+
+function setFormat(): void {
+    var font = (<HTMLSelectElement>document.getElementById("font")).value;
+    var fontSize = (<HTMLSelectElement>document.getElementById("font-size")).value;
+    editor.style.fontFamily = font;
+    editor.style.fontSize = fontSize + "px";
+    formatModal.close();
 }
 
 ipcRenderer.on("fileData", (event, data: string, newFileData: string, filename: string) => {
@@ -64,6 +79,9 @@ ipcRenderer.on("request", (event, data: string) => {
             break;
         case "saveAs":
             commandSaveFileAs();
+            break;
+        case "formatOptions":
+            formatModal.open();
             break;
     }
 })

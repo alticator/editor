@@ -64,11 +64,22 @@ menu.append(new MenuItem({
     accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
     click: () => openFile()
   }]
-}))
+}));
 
 menu.append(new MenuItem({
   role: "editMenu"
 }));
+
+menu.append(new MenuItem({
+  label: "Format",
+  submenu: [{
+    label: "Format Options",
+    accelerator: process.platform === "darwin" ? "Cmd+Shift+F" : "Ctrl+Shift+F",
+    click: () => {
+      win.webContents.send("request", "formatOptions");
+    }
+  }]
+}))
 
 menu.append(new MenuItem({
   role: "windowMenu"
