@@ -29,6 +29,15 @@ function commandOpenFile() {
     ipcRenderer.send("command", "open");
 }
 
+function editorKeydown(event) {
+    if (event.key == "Tab") {
+        event.preventDefault();
+        var cursorPosition = (<HTMLInputElement>editor).selectionStart;
+        var content = (<HTMLInputElement>editor).value;
+        (<HTMLInputElement>editor).value = content.substring(0, cursorPosition) + "	" + content.substring(cursorPosition);
+    }
+}
+
 function setUnsaved(): void {
     fileData.innerHTML = `${savePreferences.saveName}*`;
 }

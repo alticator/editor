@@ -67,7 +67,7 @@
 				Unsaved Note*
 			</div>
 		</nav>
-		<textarea id="edit" onkeypress="setUnsaved()" autofocus></textarea>
+		<textarea id="edit" onkeydown="editorKeydown(event)" onkeypress="setUnsaved()" autofocus></textarea>
 		<script src="app.js"></script>
 	</body>
 </html>
