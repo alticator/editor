@@ -8,6 +8,7 @@ nav {background-color: #505050; color: white; font-size: 18px; padding: 5px; tex
 nav #controls {float: left;}
 nav #controls button {border: none; background-color: #505050; color: white; transition: 0.3s;}
 nav #controls button:hover {background-color: #808080;}
+nav #controls button:focus {background-color: #808080; outline: none;}
 #edit {resize: none; width: 100vw; height: calc(100vh - 18px - 10px); border: none; user-select: initial; font-size: 14px; line-height: 1.6;}
 #edit:focus {outline: none;}
 

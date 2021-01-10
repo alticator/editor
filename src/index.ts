@@ -124,7 +124,11 @@ function openFile(): void {
 function saveFile(editorContent: string, doSaveAs: boolean, saveName: string): void {
   if (doSaveAs) {
     dialog.showSaveDialog(win, {
-      properties: ["showHiddenFiles"]
+      properties: ["showHiddenFiles"],
+      filters: [
+        {name: "All Files", extensions: ["*"]},
+        {name: "Text File", extensions: ["txt"]}
+      ]
     }).then(result => {
       if (result.filePath) {
         save(result.filePath, editorContent);
