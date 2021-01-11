@@ -40,6 +40,9 @@ menu.append(new MenuItem({
   label: 'Editor',
   submenu: [{
     role: 'quit',
+  },
+  {
+    role: "close"
   }]
 }))
 

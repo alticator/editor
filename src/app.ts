@@ -80,7 +80,6 @@ function setFormat(): void {
 }
 
 ipcRenderer.on("fileData", (event, data: string, newFileData: string, filename: string) => {
-    console.log("Data Received")
     editor.innerHTML = data;
     fileData.innerHTML = newFileData;
     savePreferences.saveName = filename;
