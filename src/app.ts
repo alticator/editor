@@ -63,9 +63,15 @@ function setFormat(): void {
     var fontSize = (<HTMLSelectElement>document.getElementById("font-size")).value;
     var lineHeight = (<HTMLSelectElement>document.getElementById("line-height")).value;
     var darkMode = (<HTMLInputElement>document.getElementById("dark-theme")).checked;
+    var margin = (<HTMLSelectElement>document.getElementById("margin")).value;
+    var textAlign = (<HTMLSelectElement>document.getElementById("text-align")).value;
+    var writingDirection = (<HTMLSelectElement>document.getElementById("writing-direction")).value;
     editor.style.fontFamily = font;
     editor.style.fontSize = fontSize + "px";
     editor.style.lineHeight = lineHeight;
+    editor.style.padding = margin + "px";
+    editor.style.textAlign = textAlign;
+    editor.style.direction = writingDirection;
     if (darkMode) {
         editor.style.backgroundColor = "#505050";
         editor.style.color = "white";

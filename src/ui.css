@@ -9,7 +9,7 @@ nav #controls {float: left;}
 nav #controls button {border: none; background-color: #505050; color: white; transition: 0.3s;}
 nav #controls button:hover {background-color: #808080;}
 nav #controls button:focus {background-color: #808080; outline: none;}
-#edit {resize: none; width: 100vw; height: calc(100vh - 18px - 10px); border: none; user-select: initial; font-size: 14px; line-height: 1.6;}
+#edit {resize: none; width: 100vw; height: calc(100vh - 18px - 10px); border: none; user-select: initial; font-size: 14px; line-height: 1.6; unicode-bidi: bidi-override;}
 #edit:focus {outline: none;}
 
 .modal-container {z-index: 1; position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(50, 50, 50, 0.7); overflow: auto;}
