@@ -129,6 +129,7 @@ ipcRenderer.on("fileData-alticatordoc", (event, data: string, newFileData: strin
     if (styleData.writingDirection != "") {
         editor.style.direction = styleData.writingDirection;
     }
+    saveAs = false;
 });
 
 ipcRenderer.on("fileInfo", (event, data: SaveData) => {
