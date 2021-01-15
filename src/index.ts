@@ -1,5 +1,6 @@
 // Include
 const { app, BrowserWindow, Menu, MenuItem } = require('electron')
+const path = require("path");
 
 var win;
 
@@ -74,6 +75,10 @@ menu.append(new MenuItem({
 }));
 
 menu.append(new MenuItem({
+  role: "viewMenu"
+}));
+
+menu.append(new MenuItem({
   label: "Format",
   submenu: [{
     label: "Format Options",
@@ -95,13 +100,13 @@ const {ipcMain} = require("electron");
 const fs = require("fs");
 const {dialog} = require("electron");
 
-ipcMain.on("command", function(event, message: string, content?: string, saveAs?, saveName?): void {
+ipcMain.on("command", function(event, message: string, content?, saveAs?, saveName?, styleElem?: any): void {
   switch (message) {
     case "open":
       openFile();
       break;
     case "save":
-      saveFile(content, saveAs, saveName);
+      saveFile(content, saveAs, saveName, styleElem);
       break;
   }
 });
@@ -111,11 +116,25 @@ function openFile(): void {
     properties: ["openFile"]
   }).then(result => {
     if (result.filePaths[0] != undefined) {
-      open(result.filePaths[0]);
+      if (path.extname(result.filePaths[0]) == ".alticatordoc") {
+        openAlticatordoc(result.filePaths[0]);
+      }
+      else {
+        open(result.filePaths[0]);
+      }
     }
   }).catch(err => {
     console.log(err);
   })
+  function openAlticatordoc(fileName: string) {
+    fs.readFile(fileName, "utf-8", function(err: any, data: any): void {
+      if (err) throw err;
+      var parse = JSON.parse(data);
+      var content = parse.documentContent;
+      var documentStyling = parse.documentStyle;
+      win.webContents.send("fileData-alticatordoc", content, `${fileName} - Saved`, fileName, documentStyling);
+    });
+  }
   function open(fileName: string) {
     fs.readFile(fileName, "utf-8", function(err: any, data: any): void {
       if (err) throw err;
@@ -124,17 +143,46 @@ function openFile(): void {
   }
 }
 
-function saveFile(editorContent: string, doSaveAs: boolean, saveName: string): void {
+function saveFile(editorContent: string, doSaveAs: boolean, saveName: string, styleData: any): void {
+  function saveAlticatordoc(fileName: string, data: string, styleData: any) {
+    var document = {
+      documentStyle: {
+        font: styleData.fontFamily,
+        fontSize: styleData.fontSize,
+        lineHeight: styleData.lineHeight,
+        margin: styleData.padding,
+        textAlign: styleData.textAlign,
+        writingDirection: styleData.direction
+      },
+      documentContent: data
+    };
+    var saveContent = JSON.stringify(document);
+    fs.writeFile(fileName, saveContent, (err: any) => {
+      if (err) throw err;
+    });
+    var sendData = {
+      saveName: fileName,
+      content: "",
+      saveInfo: `${fileName} - Saved`
+    }
+    win.webContents.send("fileInfo", sendData);
+  }
   if (doSaveAs) {
     dialog.showSaveDialog(win, {
       properties: ["showHiddenFiles"],
       filters: [
+        {name: "AlticatorDoc", extensions: ["alticatordoc"]},
         {name: "All Files", extensions: ["*"]},
         {name: "Text File", extensions: ["txt"]}
       ]
     }).then(result => {
       if (result.filePath) {
-        save(result.filePath, editorContent);
+        if (path.extname(result.filePath) == ".alticatordoc") {
+          saveAlticatordoc(result.filePath, editorContent, styleData);
+        }
+        else {
+          save(result.filePath, editorContent);
+        }
       }
     }).catch(err => {
       console.log(err);
@@ -152,7 +200,11 @@ function saveFile(editorContent: string, doSaveAs: boolean, saveName: string): v
     }
   }
   else {
-    fs.writeFile(saveName, editorContent, (err: any) => {
+    if (path.extname(saveName) == ".alticatordoc") {
+      saveAlticatordoc(saveName, editorContent, styleData);
+    }
+    else {
+      fs.writeFile(saveName, editorContent, (err: any) => {
         if (err)
           throw err;
       });
@@ -162,5 +214,6 @@ function saveFile(editorContent: string, doSaveAs: boolean, saveName: string): v
         saveInfo: `${saveName} - Saved`
       }
       win.webContents.send("fileInfo", sendData);
+    }
   }
 }

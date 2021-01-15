@@ -17,12 +17,28 @@ interface SaveData {
 
 function commandSaveFile() {
     var content = (<HTMLInputElement>editor).value;
-    ipcRenderer.send("command", "save", content, saveAs, savePreferences.saveName);
+    var documentStyle = {
+        fontFamily: editor.style.fontFamily,
+        fontSize: editor.style.fontSize,
+        lineHeight: editor.style.lineHeight,
+        padding: editor.style.padding,
+        textAlign: editor.style.textAlign,
+        direction: editor.style.direction
+    }
+    ipcRenderer.send("command", "save", content, saveAs, savePreferences.saveName, documentStyle);
 }
 
 function commandSaveFileAs() {
     var content = (<HTMLInputElement>editor).value;
-    ipcRenderer.send("command", "save", content, true, savePreferences.saveName);
+    var documentStyle = {
+        font: editor.style.fontFamily,
+        fontSize: editor.style.fontSize,
+        lineHeight: editor.style.lineHeight,
+        margin: editor.style.padding,
+        textAlign: editor.style.textAlign,
+        writingDirection: editor.style.direction
+    }
+    ipcRenderer.send("command", "save", content, true, savePreferences.saveName, documentStyle);
 }
 
 function commandOpenFile() {
@@ -89,6 +105,30 @@ ipcRenderer.on("fileData", (event, data: string, newFileData: string, filename: 
     editor.innerHTML = data;
     fileData.innerHTML = newFileData;
     savePreferences.saveName = filename;
+});
+
+ipcRenderer.on("fileData-alticatordoc", (event, data: string, newFileData: string, filename: string, styleData: any) => {
+    editor.innerHTML = data;
+    fileData.innerHTML = newFileData;
+    savePreferences.saveName = filename;
+    if (styleData.font != "") {
+        editor.style.fontFamily = styleData.font;
+    }
+    if (styleData.fontSize != "") {
+        editor.style.fontSize = styleData.fontSize;
+    }
+    if (styleData.lineHeight != "") {
+        editor.style.lineHeight = styleData.lineHeight;
+    }
+    if (styleData.margin != "") {
+        editor.style.padding = styleData.margin;
+    }
+    if (styleData.textAlign != "") {
+        editor.style.textAlign = styleData.textAlign;
+    }
+    if (styleData.writingDirection != "") {
+        editor.style.direction = styleData.writingDirection;
+    }
 });
 
 ipcRenderer.on("fileInfo", (event, data: SaveData) => {
