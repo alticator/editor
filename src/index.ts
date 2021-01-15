@@ -1,5 +1,6 @@
 // Include
 const { app, BrowserWindow, Menu, MenuItem } = require('electron')
+const path = require("path");
 
 var win;
 
@@ -74,6 +75,10 @@ menu.append(new MenuItem({
 }));
 
 menu.append(new MenuItem({
+  role: "viewMenu"
+}));
+
+menu.append(new MenuItem({
   label: "Format",
   submenu: [{
     label: "Format Options",
@@ -95,13 +100,13 @@ const {ipcMain} = require("electron");
 const fs = require("fs");
 const {dialog} = require("electron");
 
-ipcMain.on("command", function(event, message: string, content?: string, saveAs?, saveName?): void {
+ipcMain.on("command", function(event, message: string, content?, saveAs?, saveName?, styleElem?: any): void {
   switch (message) {
     case "open":
       openFile();
       break;
     case "save":
-      saveFile(content, saveAs, saveName);
+      saveFile(content, saveAs, saveName, styleElem);
       break;
   }
 });
@@ -124,23 +129,59 @@ function openFile(): void {
   }
 }
 
-function saveFile(editorContent: string, doSaveAs: boolean, saveName: string): void {
+function saveFile(editorContent: string, doSaveAs: boolean, saveName: string, styleData: any): void {
+  console.log("Save");
   if (doSaveAs) {
+    console.log("Save As");
     dialog.showSaveDialog(win, {
       properties: ["showHiddenFiles"],
       filters: [
+        {name: "AlticatorDoc", extensions: ["alticatordoc"]},
         {name: "All Files", extensions: ["*"]},
         {name: "Text File", extensions: ["txt"]}
       ]
     }).then(result => {
       if (result.filePath) {
-        save(result.filePath, editorContent);
+        if (path.extname(result.filePath) == ".alticatordoc") {
+          console.log("Save as AlticatorDoc");
+          saveAlticatordoc(result.filePath, editorContent, styleData);
+        }
+        else {
+          console.log("Save as " + path.extname(result.filePath));
+          save(result.filePath, editorContent);
+        }
       }
     }).catch(err => {
       console.log(err);
     })
     function save(fileName: string, data: string) {
       fs.writeFile(fileName, data, (err: any) => {
+        if (err) throw err;
+      });
+      var sendData = {
+        saveName: fileName,
+        content: "",
+        saveInfo: `${fileName} - Saved`
+      }
+      win.webContents.send("fileInfo", sendData);
+    }
+    function saveAlticatordoc(fileName: string, data: string, styleData: any) {
+      var document = {
+        fileData: {
+          title: "Test Title"
+        },
+        documentStyle: {
+          font: styleData.fontFamily,
+          fontSize: styleData.fontSize,
+          lineHeight: styleData.lineHeight,
+          margin: styleData.padding,
+          textAlign: styleData.textAlign,
+          writingDirection: styleData.direction
+        },
+        documentContent: data
+      };
+      var saveContent = JSON.stringify(document);
+      fs.writeFile(fileName, saveContent, (err: any) => {
         if (err) throw err;
       });
       var sendData = {

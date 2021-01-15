@@ -17,12 +17,29 @@ interface SaveData {
 
 function commandSaveFile() {
     var content = (<HTMLInputElement>editor).value;
-    ipcRenderer.send("command", "save", content, saveAs, savePreferences.saveName);
+    console.log(editor.style);
+    var documentStyle = {
+        fontFamily: editor.style.fontFamily,
+        fontSize: editor.style.fontSize,
+        lineHeight: editor.style.lineHeight,
+        padding: editor.style.padding,
+        textAlign: editor.style.textAlign,
+        direction: editor.style.direction
+    }
+    ipcRenderer.send("command", "save", content, saveAs, savePreferences.saveName, documentStyle);
 }
 
 function commandSaveFileAs() {
     var content = (<HTMLInputElement>editor).value;
-    ipcRenderer.send("command", "save", content, true, savePreferences.saveName);
+    var documentStyle = {
+        font: editor.style.fontFamily,
+        fontSize: editor.style.fontSize,
+        lineHeight: editor.style.lineHeight,
+        margin: editor.style.padding,
+        textAlign: editor.style.textAlign,
+        writingDirection: editor.style.direction
+    }
+    ipcRenderer.send("command", "save", content, true, savePreferences.saveName, documentStyle);
 }
 
 function commandOpenFile() {
