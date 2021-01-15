@@ -17,7 +17,6 @@ interface SaveData {
 
 function commandSaveFile() {
     var content = (<HTMLInputElement>editor).value;
-    console.log(editor.style);
     var documentStyle = {
         fontFamily: editor.style.fontFamily,
         fontSize: editor.style.fontSize,
@@ -106,6 +105,30 @@ ipcRenderer.on("fileData", (event, data: string, newFileData: string, filename: 
     editor.innerHTML = data;
     fileData.innerHTML = newFileData;
     savePreferences.saveName = filename;
+});
+
+ipcRenderer.on("fileData-alticatordoc", (event, data: string, newFileData: string, filename: string, styleData: any) => {
+    editor.innerHTML = data;
+    fileData.innerHTML = newFileData;
+    savePreferences.saveName = filename;
+    if (styleData.font != "") {
+        editor.style.fontFamily = styleData.font;
+    }
+    if (styleData.fontSize != "") {
+        editor.style.fontSize = styleData.fontSize;
+    }
+    if (styleData.lineHeight != "") {
+        editor.style.lineHeight = styleData.lineHeight;
+    }
+    if (styleData.margin != "") {
+        editor.style.padding = styleData.margin;
+    }
+    if (styleData.textAlign != "") {
+        editor.style.textAlign = styleData.textAlign;
+    }
+    if (styleData.writingDirection != "") {
+        editor.style.direction = styleData.writingDirection;
+    }
 });
 
 ipcRenderer.on("fileInfo", (event, data: SaveData) => {

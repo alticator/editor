@@ -116,11 +116,25 @@ function openFile(): void {
     properties: ["openFile"]
   }).then(result => {
     if (result.filePaths[0] != undefined) {
-      open(result.filePaths[0]);
+      if (path.extname(result.filePaths[0]) == ".alticatordoc") {
+        openAlticatordoc(result.filePaths[0]);
+      }
+      else {
+        open(result.filePaths[0]);
+      }
     }
   }).catch(err => {
     console.log(err);
   })
+  function openAlticatordoc(fileName: string) {
+    fs.readFile(fileName, "utf-8", function(err: any, data: any): void {
+      if (err) throw err;
+      var parse = JSON.parse(data);
+      var content = parse.documentContent;
+      var documentStyling = parse.documentStyle;
+      win.webContents.send("fileData-alticatordoc", content, `${fileName} - Saved`, fileName, documentStyling);
+    });
+  }
   function open(fileName: string) {
     fs.readFile(fileName, "utf-8", function(err: any, data: any): void {
       if (err) throw err;
@@ -130,9 +144,30 @@ function openFile(): void {
 }
 
 function saveFile(editorContent: string, doSaveAs: boolean, saveName: string, styleData: any): void {
-  console.log("Save");
+  function saveAlticatordoc(fileName: string, data: string, styleData: any) {
+    var document = {
+      documentStyle: {
+        font: styleData.fontFamily,
+        fontSize: styleData.fontSize,
+        lineHeight: styleData.lineHeight,
+        margin: styleData.padding,
+        textAlign: styleData.textAlign,
+        writingDirection: styleData.direction
+      },
+      documentContent: data
+    };
+    var saveContent = JSON.stringify(document);
+    fs.writeFile(fileName, saveContent, (err: any) => {
+      if (err) throw err;
+    });
+    var sendData = {
+      saveName: fileName,
+      content: "",
+      saveInfo: `${fileName} - Saved`
+    }
+    win.webContents.send("fileInfo", sendData);
+  }
   if (doSaveAs) {
-    console.log("Save As");
     dialog.showSaveDialog(win, {
       properties: ["showHiddenFiles"],
       filters: [
@@ -143,11 +178,9 @@ function saveFile(editorContent: string, doSaveAs: boolean, saveName: string, st
     }).then(result => {
       if (result.filePath) {
         if (path.extname(result.filePath) == ".alticatordoc") {
-          console.log("Save as AlticatorDoc");
           saveAlticatordoc(result.filePath, editorContent, styleData);
         }
         else {
-          console.log("Save as " + path.extname(result.filePath));
           save(result.filePath, editorContent);
         }
       }
@@ -165,35 +198,13 @@ function saveFile(editorContent: string, doSaveAs: boolean, saveName: string, st
       }
       win.webContents.send("fileInfo", sendData);
     }
-    function saveAlticatordoc(fileName: string, data: string, styleData: any) {
-      var document = {
-        fileData: {
-          title: "Test Title"
-        },
-        documentStyle: {
-          font: styleData.fontFamily,
-          fontSize: styleData.fontSize,
-          lineHeight: styleData.lineHeight,
-          margin: styleData.padding,
-          textAlign: styleData.textAlign,
-          writingDirection: styleData.direction
-        },
-        documentContent: data
-      };
-      var saveContent = JSON.stringify(document);
-      fs.writeFile(fileName, saveContent, (err: any) => {
-        if (err) throw err;
-      });
-      var sendData = {
-        saveName: fileName,
-        content: "",
-        saveInfo: `${fileName} - Saved`
-      }
-      win.webContents.send("fileInfo", sendData);
-    }
   }
   else {
-    fs.writeFile(saveName, editorContent, (err: any) => {
+    if (path.extname(saveName) == ".alticatordoc") {
+      saveAlticatordoc(saveName, editorContent, styleData);
+    }
+    else {
+      fs.writeFile(saveName, editorContent, (err: any) => {
         if (err)
           throw err;
       });
@@ -203,5 +214,6 @@ function saveFile(editorContent: string, doSaveAs: boolean, saveName: string, st
         saveInfo: `${saveName} - Saved`
       }
       win.webContents.send("fileInfo", sendData);
+    }
   }
 }
