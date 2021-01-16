@@ -113,21 +113,27 @@ ipcRenderer.on("fileData-alticatordoc", (event, data: string, newFileData: strin
     savePreferences.saveName = filename;
     if (styleData.font != "") {
         editor.style.fontFamily = styleData.font;
+        (<HTMLInputElement>document.getElementById("font")).value = styleData.font;
     }
     if (styleData.fontSize != "") {
         editor.style.fontSize = styleData.fontSize;
+        (<HTMLInputElement>document.getElementById("font-size")).value = styleData.fontSize;
     }
     if (styleData.lineHeight != "") {
         editor.style.lineHeight = styleData.lineHeight;
+        (<HTMLInputElement>document.getElementById("line-height")).value = styleData.lineHeight;
     }
     if (styleData.margin != "") {
         editor.style.padding = styleData.margin;
+        (<HTMLInputElement>document.getElementById("margin")).value = styleData.margin;
     }
     if (styleData.textAlign != "") {
         editor.style.textAlign = styleData.textAlign;
+        (<HTMLInputElement>document.getElementById("text-align")).value = styleData.textAlign;
     }
     if (styleData.writingDirection != "") {
         editor.style.direction = styleData.writingDirection;
+        (<HTMLInputElement>document.getElementById("writing-direction")).value = styleData.writingDirection;
     }
     saveAs = false;
 });
