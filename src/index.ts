@@ -75,10 +75,6 @@ menu.append(new MenuItem({
 }));
 
 menu.append(new MenuItem({
-  role: "viewMenu"
-}));
-
-menu.append(new MenuItem({
   label: "Format",
   submenu: [{
     label: "Format Options",
