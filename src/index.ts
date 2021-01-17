@@ -49,25 +49,34 @@ menu.append(new MenuItem({
 
 menu.append(new MenuItem({
   label: "File",
-  submenu: [{
-    label: "Save",
-    accelerator: process.platform === "darwin" ? "Cmd+S" : "Ctrl+S",
-    click: () => {
-      win.webContents.send("request", "save");
+  submenu: [
+    {
+      label: "New",
+      accelerator: process.platform === "darwin" ? "Cmd+N" : "Ctrl+N",
+      click: () => {
+        win.webContents.send("request", "new");
+      }
+    },
+    {
+      label: "Save",
+      accelerator: process.platform === "darwin" ? "Cmd+S" : "Ctrl+S",
+      click: () => {
+        win.webContents.send("request", "save");
     }
-  },
-  {
-    label: "Save As",
-    accelerator: process.platform === "darwin" ? "Cmd+Shift+S" : "Ctrl+Shift+S",
-    click: () => {
-      win.webContents.send("request", "saveAs");
+    },
+    {
+      label: "Save As",
+      accelerator: process.platform === "darwin" ? "Cmd+Shift+S" : "Ctrl+Shift+S",
+      click: () => {
+        win.webContents.send("request", "saveAs");
+      }
+    },
+    {
+      label: "Open",
+      accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
+      click: () => openFile()
     }
-  },
-  {
-    label: "Open",
-    accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
-    click: () => openFile()
-  }]
+]
 }));
 
 menu.append(new MenuItem({
