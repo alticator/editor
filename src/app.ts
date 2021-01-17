@@ -15,6 +15,31 @@ interface SaveData {
     saveInfo: string;
 }
 
+function askNew() {
+    document.getElementById("confirm-close").style.display = "initial";
+}
+
+function newFile() {
+    (<HTMLInputElement>editor).value = "";
+    saveAs = true;
+    savePreferences.saveName = "Unsaved Note";
+    savePreferences.saveInfo = "Unsaved Note*";
+    fileData.innerHTML = savePreferences.saveInfo;
+    document.getElementById("confirm-close").style.display = "none";
+}
+
+function saveAndNewFile() {
+    commandSaveFile();
+    setTimeout(() => {
+        (<HTMLInputElement>editor).value = "";
+        saveAs = true;
+        savePreferences.saveName = "Unsaved Note";
+        savePreferences.saveInfo = "Unsaved Note*";
+        fileData.innerHTML = savePreferences.saveInfo;
+        document.getElementById("confirm-close").style.display = "none";
+    }, 500);
+}
+
 function commandSaveFile() {
     var content = (<HTMLInputElement>editor).value;
     var documentStyle = {
@@ -102,15 +127,19 @@ function setFormat(): void {
 }
 
 ipcRenderer.on("fileData", (event, data: string, newFileData: string, filename: string) => {
-    editor.innerHTML = data;
+    (<HTMLInputElement>editor).value = data;
     fileData.innerHTML = newFileData;
     savePreferences.saveName = filename;
+    savePreferences.saveInfo = filename + " - Saved";
+    fileData.innerHTML = savePreferences.saveInfo;
 });
 
 ipcRenderer.on("fileData-alticatordoc", (event, data: string, newFileData: string, filename: string, styleData: any) => {
-    editor.innerHTML = data;
+    (<HTMLInputElement>editor).value = data;
     fileData.innerHTML = newFileData;
     savePreferences.saveName = filename;
+    savePreferences.saveInfo = filename + " - Saved";
+    fileData.innerHTML = savePreferences.saveInfo;
     if (styleData.font != "") {
         editor.style.fontFamily = styleData.font;
         (<HTMLInputElement>document.getElementById("font")).value = styleData.font;
@@ -147,6 +176,9 @@ ipcRenderer.on("fileInfo", (event, data: SaveData) => {
 
 ipcRenderer.on("request", (event, data: string) => {
     switch (data) {
+        case "new":
+            askNew();
+            break;
         case "save":
             commandSaveFile();
             break;

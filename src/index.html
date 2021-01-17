@@ -9,6 +9,24 @@
 		<link rel="stylesheet" href="ui.css">
 	</head>
 	<body>
+		<div class="modal-container" id="confirm-close" style="display: none">
+			<div class="modal">
+				<div class="modal-header">
+					Closing
+				</div>
+				<div class="modal-body">
+					Would you like to save unsaved changes before closing the file?
+				</div>
+				<div class="modal-footer">
+					<button onclick="newFile()">
+						Don't Save
+					</button>
+					<button onclick="saveAndNewFile()">
+						Save Changes
+					</button>
+				</div>
+			</div>
+		</div>
 		<div class="modal-container" id="modal-format" style="display: none;">
 			<div class="modal">
 				<div class="modal-header">
@@ -74,6 +92,9 @@
 		</div>
 		<nav>
 			<div id="controls">
+				<button onclick="askNew()">
+					New
+				</button>
 				<button onclick="commandSaveFile()">
 					Save
 				</button>
