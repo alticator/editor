@@ -1,6 +1,6 @@
 // Include
 const { app, BrowserWindow, Menu, MenuItem } = require('electron')
-const path = require("path");
+var path = require("path");
 
 var win;
 
@@ -168,7 +168,7 @@ function saveFile(editorContent: string, doSaveAs: boolean, saveName: string, st
     var sendData = {
       saveName: fileName,
       content: "",
-      saveInfo: `${fileName} - Saved`
+      saveInfo: `${path.basename(fileName)} - Saved`
     }
     win.webContents.send("fileInfo", sendData);
   }
@@ -199,7 +199,7 @@ function saveFile(editorContent: string, doSaveAs: boolean, saveName: string, st
       var sendData = {
         saveName: fileName,
         content: "",
-        saveInfo: `${fileName} - Saved`
+        saveInfo: `${path.basename(fileName)} - Saved`
       }
       win.webContents.send("fileInfo", sendData);
     }
@@ -216,7 +216,7 @@ function saveFile(editorContent: string, doSaveAs: boolean, saveName: string, st
       var sendData = {
         saveName: saveName,
         content: "",
-        saveInfo: `${saveName} - Saved`
+        saveInfo: `${path.basename(saveName)} - Saved`
       }
       win.webContents.send("fileInfo", sendData);
     }

@@ -1,6 +1,7 @@
 var editor = document.getElementById("edit");
 var fileData = document.getElementById("file-data");
 const {ipcRenderer} = require("electron");
+var path = require("path");
 
 var savePreferences: SaveData = {
     saveName: "Unsaved Note",
@@ -80,7 +81,7 @@ function editorKeydown(event) {
 }
 
 function setUnsaved(): void {
-    fileData.innerHTML = `${savePreferences.saveName}*`;
+    fileData.innerHTML = `${path.basename(savePreferences.saveName)}*`;
 }
 
 interface ModalOptions {
@@ -130,7 +131,7 @@ ipcRenderer.on("fileData", (event, data: string, newFileData: string, filename: 
     (<HTMLInputElement>editor).value = data;
     fileData.innerHTML = newFileData;
     savePreferences.saveName = filename;
-    savePreferences.saveInfo = filename + " - Saved";
+    savePreferences.saveInfo = `${path.basename(filename)} - Saved`;
     fileData.innerHTML = savePreferences.saveInfo;
 });
 
@@ -138,7 +139,7 @@ ipcRenderer.on("fileData-alticatordoc", (event, data: string, newFileData: strin
     (<HTMLInputElement>editor).value = data;
     fileData.innerHTML = newFileData;
     savePreferences.saveName = filename;
-    savePreferences.saveInfo = filename + " - Saved";
+    savePreferences.saveInfo = `${path.basename(filename)} - Saved`;
     fileData.innerHTML = savePreferences.saveInfo;
     if (styleData.font != "") {
         editor.style.fontFamily = styleData.font;
