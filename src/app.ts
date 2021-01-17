@@ -127,15 +127,19 @@ function setFormat(): void {
 }
 
 ipcRenderer.on("fileData", (event, data: string, newFileData: string, filename: string) => {
-    editor.innerHTML = data;
+    (<HTMLInputElement>editor).value = data;
     fileData.innerHTML = newFileData;
     savePreferences.saveName = filename;
+    savePreferences.saveInfo = filename + " - Saved";
+    fileData.innerHTML = savePreferences.saveInfo;
 });
 
 ipcRenderer.on("fileData-alticatordoc", (event, data: string, newFileData: string, filename: string, styleData: any) => {
-    editor.innerHTML = data;
+    (<HTMLInputElement>editor).value = data;
     fileData.innerHTML = newFileData;
     savePreferences.saveName = filename;
+    savePreferences.saveInfo = filename + " - Saved";
+    fileData.innerHTML = savePreferences.saveInfo;
     if (styleData.font != "") {
         editor.style.fontFamily = styleData.font;
         (<HTMLInputElement>document.getElementById("font")).value = styleData.font;
