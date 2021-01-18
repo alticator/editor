@@ -84,17 +84,6 @@ menu.append(new MenuItem({
 }));
 
 menu.append(new MenuItem({
-  label: "Format",
-  submenu: [{
-    label: "Format Options",
-    accelerator: process.platform === "darwin" ? "Cmd+Shift+F" : "Ctrl+Shift+F",
-    click: () => {
-      win.webContents.send("request", "formatOptions");
-    }
-  }]
-}))
-
-menu.append(new MenuItem({
   role: "windowMenu"
 }));
 
