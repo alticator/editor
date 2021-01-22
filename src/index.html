@@ -27,69 +27,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal-container" id="modal-format" style="display: none;">
-			<div class="modal">
-				<div class="modal-header">
-					Format Options
-				</div>
-				<div class="modal-body">
-					<label for="font">Font: </label>
-					<select id="font">
-						<option value="sans-serif">Sans-Serif (Default)</option>
-						<option value="serif">Serif</option>
-						<option value="monospace">Monospace</option>
-						<option value="cursive">Cursive (Handwriting)</option>
-						<option value="fantasy">Fantasy</option>
-					</select>
-					<br>
-					<label for="font-size">Font Size: </label>
-					<input type="number" id="font-size" value="14">
-					<br>
-					Line Height: 
-					<select id="line-height">
-						<option value="1.6">Recommended</option>
-						<option value="normal">Standard</option>
-						<option value="1">Single</option>
-						<option value="2">Double</option>
-					</select>
-					<br>
-					Margin:
-					<input type="number" id="margin" value="0">
-					<br>
-					Text Align:
-					<select id="text-align">
-						<option value="left">Left</option>
-						<option value="center">Center</option>
-						<option value="right">Right</option>
-						<option value="justify">Justify</option>
-					</select>
-					<br>
-					Writing Direction:
-					<select id="writing-direction">
-						<option value="ltr">
-							Left to Right (LTR)
-						</option>
-						<option value="rtl">
-							Right to Left (RTL)
-						</option>
-					</select>
-					<br>
-					Theme: <br>
-					<input type="radio" name="theme" id="light-theme" checked>
-					<label for="light-theme">Light</label>
-					<input type="radio" name="theme" id="dark-theme">
-					<label for="dark-theme">Dark</label>
-				</div>
-				<div class="modal-footer">
-					<button onclick="setFormat()">
-						OK
-					</button>
-					<button onclick="formatModal.close()">
-						Cancel
-					</button>
-				</div>
-			</div>
-		</div>
 		<nav>
 			<div id="controls">
 				<button onclick="askNew()">
@@ -101,14 +38,51 @@
 				<button onclick="commandOpenFile()">
 					Open
 				</button>
-				<button onclick="formatModal.open()">
-					Format
-				</button>
+				<select id="theme" onchange="setFormat()">
+					<option disabled>Theme</option>
+					<option value="light">Light</option>
+					<option value="dark">Dark</option>
+				</select>
 			</div>
 			<div id="file-data">
 				Unsaved Note*
 			</div>
 		</nav>
+		<div class="toolbar">
+			<select id="font" onchange="setFormat()">
+				<option value="sans-serif">Sans-Serif (Default)</option>
+				<option value="serif">Serif</option>
+				<option value="monospace">Monospace</option>
+				<option value="cursive">Cursive (Handwriting)</option>
+				<option value="fantasy">Fantasy</option>
+			</select>
+			<input type="number" class="short" id="font-size" value="14" onchange="setFormat()">
+			<select id="line-height" onchange="setFormat()">
+				<option disabled>Line Height</option>
+				<option value="1.6">Recommended</option>
+				<option value="normal">Standard</option>
+				<option value="1">Single</option>
+				<option value="2">Double</option>
+			</select>
+			Margin:
+			<input type="number" id="margin" class="short" value="0" onchange="setFormat()">
+			<select id="text-align" onchange="setFormat()">
+				<option disabled>Text Align</option>
+				<option value="left">Left</option>
+				<option value="center">Center</option>
+				<option value="right">Right</option>
+				<option value="justify">Justify</option>
+			</select>
+			<select id="writing-direction" onchange="setFormat()">
+				<option disabled>Writing Direction</option>
+				<option value="ltr">
+					Left to Right (LTR)
+				</option>
+				<option value="rtl">
+					Right to Left (RTL)
+				</option>
+			</select>
+		</div>
 		<textarea id="edit" onkeydown="editorKeydown(event)" onkeypress="setUnsaved()" autofocus></textarea>
 		<script src="app.js"></script>
 	</body>

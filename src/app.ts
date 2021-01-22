@@ -104,7 +104,7 @@ function setFormat(): void {
     var font = (<HTMLSelectElement>document.getElementById("font")).value;
     var fontSize = (<HTMLSelectElement>document.getElementById("font-size")).value;
     var lineHeight = (<HTMLSelectElement>document.getElementById("line-height")).value;
-    var darkMode = (<HTMLInputElement>document.getElementById("dark-theme")).checked;
+    var darkMode = (<HTMLInputElement>document.getElementById("theme")).value == "dark";
     var margin = (<HTMLSelectElement>document.getElementById("margin")).value;
     var textAlign = (<HTMLSelectElement>document.getElementById("text-align")).value;
     var writingDirection = (<HTMLSelectElement>document.getElementById("writing-direction")).value;
