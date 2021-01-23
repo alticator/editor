@@ -117,12 +117,10 @@ function setFormat(): void {
     if (darkMode) {
         editor.style.backgroundColor = "#505050";
         editor.style.color = "white";
-        document.getElementsByTagName("nav")[0].style.backgroundColor = "#808080";
     }
     else if (!darkMode) {
         editor.style.backgroundColor = "white";
         editor.style.color = "black";
-        document.getElementsByTagName("nav")[0].style.backgroundColor = "#505050";
     }
     formatModal.close();
 }
