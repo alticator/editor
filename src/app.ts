@@ -84,6 +84,8 @@ function commandExportHTML() {
         text-align: ${editor.style.textAlign};
         unicode-bidi: bidi-override;
         direction: ${editor.style.direction};
+        white-space: pre-line;
+        max-width: 100%;
     }
     </style>
     ${content}
