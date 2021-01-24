@@ -10,7 +10,6 @@ nav #controls button {background-color: rgba(255, 255, 255, 0.7); padding: 3px; 
 nav #controls button:hover {background-color: #aaa;}
 nav #controls button:focus {background-color: #aaa; outline: none;}
 .toolbar {background-color: dodgerblue; color: white; padding: 5px;}
-/* 441bd8dc */
 select, .toolbar input {background-color: rgba(255, 255, 255, 0.7); padding: 3px; border-radius: 7px; border: none;}
 .toolbar .short {width: 50px;}
 .toolbar select:focus, nav select:focus {outline: none;}
