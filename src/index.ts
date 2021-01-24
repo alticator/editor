@@ -16,6 +16,19 @@ function createWindow () {
   })
 
   win.loadFile('src/index.html')
+  win.on("close", (e) => {
+    //e.preventDefault();
+    var close = dialog.showMessageBoxSync(win, {
+      type: "question",
+      title: "Save Changes?",
+      message: "By closing the app, any unsaved changes will be lost.",
+      detail: "You may see this message even if you have saved the file.",
+      buttons: ["Cancel", "Close"]
+    });
+    if (close == 0) {
+      e.preventDefault();
+    }
+  })
 }
 
 app.whenReady().then(createWindow)
