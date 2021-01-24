@@ -88,6 +88,13 @@ menu.append(new MenuItem({
       label: "Open",
       accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
       click: () => openFile()
+    },
+    {
+      label: "Export HTML",
+      accelerator: process.platform === "darwin" ? "Cmd+E" : "Ctrl+E",
+      click: () => {
+        win.webContents.send("request", "exportHTML");
+      }
     }
 ]
 }));
@@ -117,6 +124,23 @@ ipcMain.on("command", function(event, message: string, content?, saveAs?, saveNa
       break;
   }
 });
+
+ipcMain.on("export", function(event, type: string, fileContents: string): void {
+  if (type == "html") {
+    dialog.showSaveDialog(win, {
+      properties: ["showHiddenFiles"],
+      filters: [
+        {name: "HTML", extensions: ["html"]}
+      ]
+    }).then(result => {
+      if (result.filePath) {
+        fs.writeFile(result.filePath, fileContents, err => {
+          if (err) throw err;
+        });
+      }
+    })
+  }
+})
 
 function openFile(): void {
   dialog.showOpenDialog(win, {

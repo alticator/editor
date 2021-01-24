@@ -71,6 +71,26 @@ function commandOpenFile() {
     ipcRenderer.send("command", "open");
 }
 
+function commandExportHTML() {
+    var content = (<HTMLInputElement>editor).value;
+    var file = `<!doctype html>
+    <html>
+    <style>
+    body {
+        font-family: ${editor.style.fontFamily};
+        font-size: ${editor.style.fontSize};
+        line-height: ${editor.style.lineHeight};
+        margin: ${editor.style.padding};
+        text-align: ${editor.style.textAlign};
+        unicode-bidi: bidi-override;
+        direction: ${editor.style.direction};
+    }
+    </style>
+    ${content}
+    </html>`;
+    ipcRenderer.send("export", "html", file);
+}
+
 function editorKeydown(event) {
     if (event.key == "Tab") {
         event.preventDefault();
@@ -191,6 +211,9 @@ ipcRenderer.on("request", (event, data: string) => {
             break;
         case "formatOptions":
             formatModal.open();
+            break;
+        case "exportHTML":
+            commandExportHTML();
             break;
     }
 })
