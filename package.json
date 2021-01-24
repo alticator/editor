@@ -2,7 +2,7 @@
     "name": "editor",
     "version": "7.0.0",
     "author": "alticator",
-    "description": "A Simple Text Editor",
+    "description": "Edit AlticatorDoc Files",
     "main": "src/index.js",
     "scripts": {
         "start": "electron ."
