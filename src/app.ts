@@ -77,6 +77,8 @@ function editorKeydown(event) {
         var cursorPosition = (<HTMLInputElement>editor).selectionStart;
         var content = (<HTMLInputElement>editor).value;
         (<HTMLInputElement>editor).value = content.substring(0, cursorPosition) + "	" + content.substring(cursorPosition);
+        (<HTMLInputElement>editor).selectionStart = cursorPosition + 1;
+        (<HTMLInputElement>editor).selectionEnd = cursorPosition + 1;
     }
 }
 
@@ -117,10 +119,13 @@ function setFormat(): void {
     if (darkMode) {
         editor.style.backgroundColor = "#505050";
         editor.style.color = "white";
-    }
+        document.getElementsByTagName("nav")[0].style.backgroundColor = "#441bd8dc";
+        document.getElementById("toolbar").style.backgroundColor = "#441bd8dc";    }
     else if (!darkMode) {
         editor.style.backgroundColor = "white";
         editor.style.color = "black";
+        document.getElementsByTagName("nav")[0].style.backgroundColor = "dodgerblue";
+        document.getElementById("toolbar").style.backgroundColor = "dodgerblue";
     }
     formatModal.close();
 }

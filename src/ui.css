@@ -4,12 +4,13 @@
 
 * {font-family: sans-serif; box-sizing: border-box; user-select: none;}
 html, body {margin: 0; overflow: hidden;}
-nav {background-color: #441bd8dc; color: white; font-size: 18px; padding: 5px; text-align: center;}
+nav {background-color: dodgerblue; color: white; font-size: 18px; padding: 5px; text-align: center;}
 nav #controls {float: left;}
 nav #controls button {background-color: rgba(255, 255, 255, 0.7); padding: 3px; border-radius: 7px; border: none;}
 nav #controls button:hover {background-color: #aaa;}
 nav #controls button:focus {background-color: #aaa; outline: none;}
-.toolbar {background-color: #441bd8dc; color: white; padding: 5px;}
+.toolbar {background-color: dodgerblue; color: white; padding: 5px;}
+/* 441bd8dc */
 select, .toolbar input {background-color: rgba(255, 255, 255, 0.7); padding: 3px; border-radius: 7px; border: none;}
 .toolbar .short {width: 50px;}
 .toolbar select:focus, nav select:focus {outline: none;}
