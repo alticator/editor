@@ -38,6 +38,9 @@
 				<button onclick="commandOpenFile()">
 					Open
 				</button>
+				<button onclick="window.print()">
+					Print
+				</button>
 				<button onclick="commandExportHTML()">
 					Export HTML
 				</button>
@@ -46,45 +49,52 @@
 					<option value="light">Light</option>
 					<option value="dark">Dark</option>
 				</select>
+				<select id="view" onchange="setView(this)">
+					<option disabled>View</option>
+					<option value="edit">Writer View</option>
+					<option value="read">Reader View</option>
+				</select>
 			</div>
 			<div id="file-data">
 				Unsaved Note*
 			</div>
 		</nav>
 		<div class="toolbar" id="toolbar">
-			<select id="font" onchange="setFormat()">
-				<option value="sans-serif">Sans-Serif (Default)</option>
-				<option value="serif">Serif</option>
-				<option value="monospace">Monospace</option>
-				<option value="cursive">Cursive (Handwriting)</option>
-				<option value="fantasy">Fantasy</option>
-			</select>
-			<input type="number" class="short" id="font-size" value="14" onchange="setFormat()">
-			<select id="line-height" onchange="setFormat()">
-				<option disabled>Line Height</option>
-				<option value="1.6">Recommended</option>
-				<option value="normal">Standard</option>
-				<option value="1">Single</option>
-				<option value="2">Double</option>
-			</select>
-			Margin:
-			<input type="number" id="margin" class="short" value="10" onchange="setFormat()">
-			<select id="text-align" onchange="setFormat()">
-				<option disabled>Text Align</option>
-				<option value="left">Left</option>
-				<option value="center">Center</option>
-				<option value="right">Right</option>
-				<option value="justify">Justify</option>
-			</select>
-			<select id="writing-direction" onchange="setFormat()">
-				<option disabled>Writing Direction</option>
-				<option value="ltr">
-					Left to Right (LTR)
-				</option>
-				<option value="rtl">
-					Right to Left (RTL)
-				</option>
-			</select>
+			<div id="edit-view">
+				<select id="font" onchange="setFormat()">
+					<option value="sans-serif">Sans-Serif (Default)</option>
+					<option value="serif">Serif</option>
+					<option value="monospace">Monospace</option>
+					<option value="cursive">Cursive (Handwriting)</option>
+					<option value="fantasy">Fantasy</option>
+				</select>
+				<input type="number" class="short" id="font-size" value="14" onchange="setFormat()">
+				<select id="line-height" onchange="setFormat()">
+					<option disabled>Line Height</option>
+					<option value="1.6">Recommended</option>
+					<option value="normal">Standard</option>
+					<option value="1">Single</option>
+					<option value="2">Double</option>
+				</select>
+				Margin:
+				<input type="number" id="margin" class="short" value="10" onchange="setFormat()">
+				<select id="text-align" onchange="setFormat()">
+					<option disabled>Text Align</option>
+					<option value="left">Left</option>
+					<option value="center">Center</option>
+					<option value="right">Right</option>
+					<option value="justify">Justify</option>
+				</select>
+				<select id="writing-direction" onchange="setFormat()">
+					<option disabled>Writing Direction</option>
+					<option value="ltr">
+						Left to Right (LTR)
+					</option>
+					<option value="rtl">
+						Right to Left (RTL)
+					</option>
+				</select>
+			</div>
 		</div>
 		<textarea id="edit" onkeydown="editorKeydown(event)" onkeypress="setUnsaved()" autofocus></textarea>
 		<script src="app.js"></script>

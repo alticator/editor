@@ -17,7 +17,6 @@ function createWindow () {
 
   win.loadFile('src/index.html')
   win.on("close", (e) => {
-    //e.preventDefault();
     var close = dialog.showMessageBoxSync(win, {
       type: "question",
       title: "Save Changes?",
@@ -31,7 +30,7 @@ function createWindow () {
   })
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(createWindow);
 
 // Quit app when all windows closed except on process.platform darwin
 app.on('window-all-closed', () => {
@@ -48,7 +47,7 @@ app.on('activate', () => {
 })
 
 // Menus
-const menu = new Menu()
+const menu = new Menu();
 
 menu.append(new MenuItem({
   label: 'Editor',
@@ -88,6 +87,11 @@ menu.append(new MenuItem({
       label: "Open",
       accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
       click: () => openFile()
+    },
+    {
+      label: "Print",
+      accelerator: process.platform === "darwin" ? "Cmd+P" : "Ctrl+P",
+      click: () => win.webContents.print()
     },
     {
       label: "Export HTML",

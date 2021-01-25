@@ -152,6 +152,16 @@ function setFormat(): void {
     formatModal.close();
 }
 
+function setView(select): void {
+    var newView = (<HTMLInputElement>select).value;
+    if (newView == "edit") {
+        document.getElementById("edit-view").style.display = "initial";
+    }
+    else if (newView == "read") {
+        document.getElementById("edit-view").style.display = "none";
+    }
+}
+
 ipcRenderer.on("fileData", (event, data: string, newFileData: string, filename: string) => {
     (<HTMLInputElement>editor).value = data;
     fileData.innerHTML = newFileData;
