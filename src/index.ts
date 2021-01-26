@@ -70,6 +70,11 @@ menu.append(new MenuItem({
       }
     },
     {
+      label: "Open",
+      accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
+      click: () => openFile()
+    },
+    {
       label: "Save",
       accelerator: process.platform === "darwin" ? "Cmd+S" : "Ctrl+S",
       click: () => {
@@ -84,9 +89,7 @@ menu.append(new MenuItem({
       }
     },
     {
-      label: "Open",
-      accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
-      click: () => openFile()
+      type: "separator"
     },
     {
       label: "Print",
@@ -99,6 +102,9 @@ menu.append(new MenuItem({
       click: () => {
         win.webContents.send("request", "exportHTML");
       }
+    },
+    {
+      type: "separator"
     },
     {
       label: "File Info",
