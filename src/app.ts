@@ -2,6 +2,7 @@ var editor = document.getElementById("edit");
 var fileData = document.getElementById("file-data");
 const {ipcRenderer} = require("electron");
 var path = require("path");
+var fs = require("fs");
 
 var savePreferences: SaveData = {
     saveName: "Unsaved Note",
@@ -227,5 +228,41 @@ ipcRenderer.on("request", (event, data: string) => {
         case "exportHTML":
             commandExportHTML();
             break;
+        case "fileInfo":
+            if (!saveAs) {
+                document.getElementById("file-name").innerHTML = path.basename(savePreferences.saveName);
+                document.getElementById("file-path").innerHTML = savePreferences.saveName;
+                var fileFormat = path.extname(savePreferences.saveName);
+                var fileFormatName;
+                if (fileFormat == ".alticatordoc") {
+                    fileFormatName = "AlticatorDoc";
+                }
+                else if (fileFormat == ".txt") {
+                    fileFormatName = "Plain Text";
+                }
+                else {
+                    fileFormatName = `Other (${fileFormatName})`
+                }
+                document.getElementById("file-format").innerHTML = fileFormatName;
+                fs.stat(savePreferences.saveName, (err, data) => {
+                    if (err) throw err;
+                    if (data.size / 1000000 > 1) {
+                        document.getElementById("file-size").innerHTML = `${data.size / 1000000} MB`;
+                    }
+                    else if (data.size / 1000 > 1) {
+                        document.getElementById("file-size").innerHTML = `${data.size / 1000} KB`;
+                    }
+                    else {
+                        document.getElementById("file-size").innerHTML = `${data.size} B`;
+                    }
+                });
+            }
+            else {
+                document.getElementById("file-name").innerHTML = "Not Saved";
+                document.getElementById("file-path").innerHTML = "Not Saved";
+                document.getElementById("file-size").innerHTML = "Not Saved";
+                document.getElementById("file-format").innerHTML = "Not Saved";
+            }
+            document.getElementById("file-info").style.display = "initial";
     }
 })

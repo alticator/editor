@@ -99,6 +99,11 @@ menu.append(new MenuItem({
       click: () => {
         win.webContents.send("request", "exportHTML");
       }
+    },
+    {
+      label: "File Info",
+      accelerator: process.platform === "darwin" ? "Cmd+Shift+I" : "Ctrl+Shift+I",
+      click: () => win.webContents.send("request", "fileInfo")
     }
 ]
 }));
@@ -115,7 +120,7 @@ Menu.setApplicationMenu(menu);
 
 // Save and Open Files
 const {ipcMain} = require("electron");
-const fs = require("fs");
+var fs = require("fs");
 const {dialog} = require("electron");
 
 ipcMain.on("command", function(event, message: string, content?, saveAs?, saveName?, styleElem?: any): void {
