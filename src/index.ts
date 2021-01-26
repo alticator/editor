@@ -70,6 +70,11 @@ menu.append(new MenuItem({
       }
     },
     {
+      label: "Open",
+      accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
+      click: () => openFile()
+    },
+    {
       label: "Save",
       accelerator: process.platform === "darwin" ? "Cmd+S" : "Ctrl+S",
       click: () => {
@@ -84,9 +89,7 @@ menu.append(new MenuItem({
       }
     },
     {
-      label: "Open",
-      accelerator: process.platform === "darwin" ? "Cmd+O" : "Ctrl+O",
-      click: () => openFile()
+      type: "separator"
     },
     {
       label: "Print",
@@ -99,6 +102,14 @@ menu.append(new MenuItem({
       click: () => {
         win.webContents.send("request", "exportHTML");
       }
+    },
+    {
+      type: "separator"
+    },
+    {
+      label: "File Info",
+      accelerator: process.platform === "darwin" ? "Cmd+Shift+I" : "Ctrl+Shift+I",
+      click: () => win.webContents.send("request", "fileInfo")
     }
 ]
 }));
@@ -115,7 +126,7 @@ Menu.setApplicationMenu(menu);
 
 // Save and Open Files
 const {ipcMain} = require("electron");
-const fs = require("fs");
+var fs = require("fs");
 const {dialog} = require("electron");
 
 ipcMain.on("command", function(event, message: string, content?, saveAs?, saveName?, styleElem?: any): void {

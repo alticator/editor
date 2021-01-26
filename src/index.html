@@ -27,6 +27,28 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal-container" id="file-info" style="display: none;">
+			<div class="modal">
+				<div class="modal-header">
+					File Info
+				</div>
+				<div class="modal-body">
+					<b>File Name: </b>
+					<span id="file-name"></span><br>
+					<b>File Path: </b>
+					<span id="file-path"></span><br>
+					<b>File Size: </b>
+					<span id="file-size"></span><br>
+					<b>File Format: </b>
+					<span id="file-format"></span><br>
+				</div>
+				<div class="modal-footer">
+					<button onclick="document.getElementById('file-info').style.display = 'none';">
+						OK
+					</button>
+				</div>
+			</div>
+		</div>
 		<nav>
 			<div id="controls">
 				<button onclick="askNew()">
